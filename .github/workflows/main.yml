@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    name: Build and upload to s3 on Node ${{ matrix.node }} and ${{ matrix.os }}
+    name: Build and upload to s3 run on Node ${{ matrix.node }} / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -17,6 +17,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Create Env variables
+      uses: SpicyPizza/create-envfile@v1
+      with:
+        envkey_VITE_SHOPIFY_KEY: ${{ secrets.VITE_SHOPIFY_KEY }}
 
     - name: Setup Node
       uses: actions/setup-node@v2
@@ -36,5 +41,5 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: sa-east-1
 
-    - name: Deploy assets site to S3 bucket
+    - name: Deploy assets to S3 bucket
       run: aws s3 sync ./dist/assets/ s3://toda-delicadinha --delete
