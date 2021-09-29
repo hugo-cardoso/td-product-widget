@@ -1,0 +1,77 @@
+:root {
+  /* Spaces */
+  --theme-spaces-xs: 8px;
+  --theme-spaces-sm: 16px;
+  --theme-spaces-md: 24px;
+  --theme-spaces-lg: 32px;
+  --theme-spaces-xl: 40px;
+  --theme-spaces-xxl: 48px;
+  --theme-spaces-xxxl: 80px;
+
+  /* Font */
+  --theme-font-family: "Roboto", sans-serif;
+
+  /* Colors */
+  --theme-color-background: #e6eef0;
+  --theme-color-primary: #eb7cdc;
+  --theme-color-gray-light: #f7f8fa;
+  --theme-color-gray-medium: #efefef;
+  --theme-color-gray-dark: #666666;
+
+  /* Breakpoints */
+  --theme-breakpoint-xs: 375px;
+  --theme-breakpoint-sm: 576px;
+  --theme-breakpoint-md: 768px;
+  --theme-breakpoint-lg: 1024px;
+  --theme-breakpoint-xl: 1280px;
+}
+
+/* Globals */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 100vw;
+  overflow-x: hidden;
+  font-size: 16px;
+}
+
+.container {
+  max-width: var(--theme-breakpoint-xl);
+  margin: 0 auto;
+  padding: 0 var(--theme-spaces-sm);
+  box-sizing: border-box;
+}
+
+.page-container {
+  max-width: var(--theme-breakpoint-xl);
+  margin: 0 auto;
+  padding: 0 var(--theme-spaces-sm);
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: var(--theme-color-gray-medium);
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-top: 0;
+  border-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #FFF;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    border-left-width: 0;
+    border-right-width: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .container,
+  .page-container {
+    padding: 0;
+  }
+}
