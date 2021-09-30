@@ -8,6 +8,7 @@
   $: ({
     selectedVariant,
     variantMetafields,
+    hasVariants,
   } = $store)
 
   $: ({
@@ -39,24 +40,28 @@
 
   {#if $availableVariants.length}
 
-    {#each options as option}
-      <div class="product-variants">
-        <p class="product-variants__title">{ option.name }</p>
-        <div class="product-variants__list">
-          {#each option.values as value}
-            {#if $availableVariants.find(variant => variant.option1 === value)}
-              <div
-                class="product-variants__item"
-                class:product-variants__item--selected={ selectedVariant.option1 === value }
-                on:click={ () => handleClickOption(value) }
-              >{ value }</div>
-            {/if}
-          {/each}
-        </div>
-      </div>
-    {/each}
+    {#if hasVariants}
 
-    <BuyButton variant={selectedVariant}/>
+      {#each options as option}
+        <div class="product-variants">
+          <p class="product-variants__title">{ option.name }</p>
+          <div class="product-variants__list">
+            {#each option.values as value}
+              {#if $availableVariants.find(variant => variant.option1 === value)}
+                <div
+                  class="product-variants__item"
+                  class:product-variants__item--selected={ selectedVariant.option1 === value }
+                  on:click={ () => handleClickOption(value) }
+                >{ value }</div>
+              {/if}
+            {/each}
+          </div>
+        </div>
+      {/each}
+
+    {/if}
+
+    <BuyButton />
 
     {#if clothingSizes.length }
       <p class="measures-table__title">Tabela de medidas(cm):</p>

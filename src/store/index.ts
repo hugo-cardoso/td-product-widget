@@ -9,6 +9,7 @@ type Store = {
   variantMetafields: VariantMetafields,
   color: string,
   selectedVariant: Variant,
+  hasVariants: boolean,
 }
 
 export const store = writable<Store>({
@@ -16,6 +17,7 @@ export const store = writable<Store>({
   variantMetafields: [],
   color: '',
   selectedVariant: null,
+  hasVariants: false,
 })
 
 export const availableVariants = derived(store, $store => filterVariantsAvailable($store.product.variants))

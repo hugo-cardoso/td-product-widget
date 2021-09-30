@@ -8,3 +8,5 @@ export const setSelectVariant = (selectedVariant: Variant) => store.update(state
 export const setVariantMetafields = (variantMetafields: VariantMetafields) => store.update(state => ({...state, variantMetafields}))
 
 export const setColor = (color: string) => store.update(state => ({...state, color}))
+
+export const setHasVariants = (hasVariants: boolean) => store.update(state => ({...state, hasVariants}))
