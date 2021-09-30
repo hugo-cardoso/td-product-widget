@@ -3,10 +3,12 @@
   import { store } from './store'
 
   import { getProduct, getProductMetafields } from './services'
-  import { setProduct, setVariantMetafields, setColor } from './store/actions'
+  import { setProduct, setVariantMetafields, setColor, setSelectVariant } from './store/actions'
 
   import Gallery from './components/Gallery.svelte'
   import Info from './components/Info.svelte'
+
+  import { filterVariantsAvailable } from './utils'
 
   import type { VariantMetafields } from './types'
 
@@ -14,8 +16,9 @@
 
   onMount(async () => {
     const productResponse = await getProduct()
+
+    setSelectVariant(filterVariantsAvailable(productResponse.variants)[0])
     setProduct(productResponse)
-    console.log(productResponse)
 
     const metafieldsResponse = await getProductMetafields(productResponse.handle)
 
@@ -40,7 +43,9 @@
 {#if product}
   <div class="product">
     <Gallery />
-    <Info />
+    {#if $store.selectedVariant}
+      <Info />
+    {/if}
   </div>
 {/if}
 

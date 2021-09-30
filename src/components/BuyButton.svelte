@@ -1,15 +1,12 @@
 <script lang="ts">
   import { store } from '../store'
-  import type { Variant } from 'src/types'
+  import { addToCart } from '../services'
 
   type Status = 'default' | 'loading' | 'success'
   type Message = {
     [key in Status]: string;
   };
 
-  export let variant: Variant
-
-  $: ({ color } = $store)
   let status: Status = 'default'
   let message: Message = {
     default: 'ADICIONAR À SACOLA!',
@@ -17,21 +14,26 @@
     success: 'ADICIONADO!',
   }
 
-  const handleClickButton = () => {
+  const handleClickButton = async () => {
     status = 'loading'
-    
-    setTimeout(() => {
-      status = 'success'
 
+    try {
+      await addToCart($store.selectedVariant.id)
+      document.dispatchEvent(new CustomEvent('cart-update'));
+      status = 'success'
+    } finally {
       setTimeout(() => {
         status = 'default'
       }, 1000)
-    }, 2000)
-    console.log(variant)
+    }
   }
 </script>
 
-<button class="buy-button" data-color={color} on:click={handleClickButton}>
+<button
+  class="buy-button"
+  on:click={handleClickButton}
+  disabled={status === 'loading'}
+>
   <span>{ message[status] }</span>
   {#if status === 'loading'}
     <svg class="buy-button__rotate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 0 0-7-7V3z"></path></svg>

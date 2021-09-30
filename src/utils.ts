@@ -1,3 +1,5 @@
+import type { Variant } from "./types"
+
 export const createImageURL = (
   url: string,
   size: 'thumb' | 'small' | 'medium' | 'large' | 'master'
@@ -17,3 +19,5 @@ export const parsePrice = (price: number) => {
     currency: 'BRL'
   })
 }
+
+export const filterVariantsAvailable = (variants: Variant[]) => variants.filter(({available}) => available)

@@ -77,3 +77,20 @@ export const getProductMetafields = async (handle: string): Promise<GetProductMe
   const data = await response.json();
   return data;
 }
+
+export const addToCart = async (variantId: number): Promise<void> => {
+  const formData = {
+    'items': [{
+      'id': variantId,
+      'quantity': 1
+    }]
+  };
+
+  await fetch('/cart/add.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  }).then(response => response.json())
+}

@@ -1,49 +1,53 @@
 <script lang="ts">
-  import { store } from '../store'
+  import { store, availableVariants, installmentPrice } from '../store'
+  import { setSelectVariant } from '../store/actions'
   import { parsePrice } from '../utils'
 
   import BuyButton from './BuyButton.svelte'
+
+  $: ({
+    selectedVariant,
+    variantMetafields,
+  } = $store)
 
   $: ({
     title,
     variants,
     options,
   } = $store.product)
-  $: variantMetafields = $store.variantMetafields
-  $: variantsAvailable = variants.filter(({ available }) => available)
-  $: variantSelected = variantsAvailable.length ? variantsAvailable[0] : null
-  $: installmentPrice = parsePrice(variantSelected.price * 1.1979 / 12)
 
   $: clothingSizes = variantMetafields.filter(({ title }) => options.find(({ name}) => name === 'Tamanho')?.values.includes(title))
 
   const handleClickOption = (optionValue: string) => {
     const newSelectedVariant = variants.find(variant => variant.option1 === optionValue)
-    if (newSelectedVariant.id !== variantSelected.id) variantSelected = newSelectedVariant
+    if (newSelectedVariant.id !== selectedVariant.id) setSelectVariant(newSelectedVariant)
   }
 
 </script>
 
 <div class="product-info">
   <h1 class="product-info__title">{title}</h1>
-  <div class="product-prices">
-    <div class="product-prices__price">{ parsePrice(variantSelected.price) }</div>
-    {#if variantSelected.compare_at_price}
-      <div class="product-prices__price product-prices__price--old">{ parsePrice(variantSelected.compare_at_price) }</div>
-    {/if}
-  </div>
-  <p class="product-info__installments">Em até <strong>12x de { installmentPrice }</strong></p>
+  {#if selectedVariant}
+    <div class="product-prices">
+      <div class="product-prices__price">{ parsePrice(selectedVariant.price) }</div>
+      {#if selectedVariant.compare_at_price}
+        <div class="product-prices__price product-prices__price--old">{ parsePrice(selectedVariant.compare_at_price) }</div>
+      {/if}
+    </div>
+    <p class="product-info__installments">Em até <strong>12x de { $installmentPrice }</strong></p>
+  {/if}
 
-  {#if variantsAvailable.length}
+  {#if $availableVariants.length}
 
     {#each options as option}
       <div class="product-variants">
         <p class="product-variants__title">{ option.name }</p>
         <div class="product-variants__list">
           {#each option.values as value}
-            {#if variantsAvailable.find(variant => variant.option1 === value)}
+            {#if $availableVariants.find(variant => variant.option1 === value)}
               <div
                 class="product-variants__item"
-                class:product-variants__item--selected={ variantSelected.option1 === value }
+                class:product-variants__item--selected={ selectedVariant.option1 === value }
                 on:click={ () => handleClickOption(value) }
               >{ value }</div>
             {/if}
@@ -52,7 +56,7 @@
       </div>
     {/each}
 
-    <BuyButton variant={variantSelected}/>
+    <BuyButton variant={selectedVariant}/>
 
     {#if clothingSizes.length }
       <p class="measures-table__title">Tabela de medidas(cm):</p>
