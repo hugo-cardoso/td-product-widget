@@ -68,7 +68,7 @@
       <table class="measures-table">
         <thead>
           <tr>
-            <th>Tamanho</th>
+            <th></th>
             <th>Busto</th>
             <th>Cintura</th>
             <th>Quadril</th>
@@ -80,7 +80,7 @@
         <tbody>
           {#each clothingSizes as size}
             <tr>
-              <td><strong>{ size.title }</strong></td>
+              <td class="tam"><strong>{ size.title }</strong></td>
               <td>{ size.values.busto }</td>
               <td>{ size.values.cintura }</td>
               <td>{ size.values.quadril }</td>
@@ -214,6 +214,13 @@
   .measures-table th {
     font-weight: 500;
     border-bottom: 1px solid var(--theme-color-gray-medium);
+    padding: var(--theme-spaces-xs);
+    width: 1%;
+    white-space: nowrap;
+  }
+
+  .measures-table td {
+    padding: var(--theme-spaces-xs) 0;
   }
 
   .measures-table td,
@@ -222,11 +229,15 @@
     text-align: center;
     font-family: var(--theme-font-family);
     font-size: .9rem;
-    padding: var(--theme-spaces-xs) 0;
     box-sizing: border-box;
 
     strong {
       font-weight: 500;
+    }
+
+    &.tam {
+      padding: 0 var(--theme-spaces-xs);
+      box-sizing: border-box;
     }
   }
 
