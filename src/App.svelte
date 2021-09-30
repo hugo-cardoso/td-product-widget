@@ -12,7 +12,7 @@
 
   import type { VariantMetafields } from './types'
 
-  $: ({ product, color } = $store)
+  $: ({ product } = $store)
 
   onMount(async () => {
     const productResponse = await getProduct()
@@ -34,9 +34,10 @@
         id: edge.node.id,
         title: edge.node.title,
         values: {
-          busto: edge.node.busto?.value || 0,
-          cintura: edge.node.cintura?.value || 0,
-          quadril: edge.node.quadril?.value || 0,
+          busto: edge.node?.busto?.value || 0,
+          cintura: edge.node?.cintura?.value || 0,
+          quadril: edge.node?.quadril?.value || 0,
+          comprimento: edge.node?.comprimento?.value || 0,
         }
       }
     })

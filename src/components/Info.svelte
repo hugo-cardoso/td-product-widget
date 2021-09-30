@@ -72,15 +72,21 @@
             <th>Busto</th>
             <th>Cintura</th>
             <th>Quadril</th>
+            {#if clothingSizes[0].values.comprimento}
+              <th>Comprimento</th>
+            {/if}
           </tr>
         </thead>
         <tbody>
           {#each clothingSizes as size}
             <tr>
-              <td>{ size.title }</td>
+              <td><strong>{ size.title }</strong></td>
               <td>{ size.values.busto }</td>
               <td>{ size.values.cintura }</td>
               <td>{ size.values.quadril }</td>
+              {#if size.values.comprimento}
+                <td>{ size.values.comprimento }</td>
+              {/if}
             </tr>
           {/each}
         </tbody>
@@ -215,8 +221,13 @@
     height: var(--theme-spaces-md);
     text-align: center;
     font-family: var(--theme-font-family);
+    font-size: .9rem;
     padding: var(--theme-spaces-xs) 0;
     box-sizing: border-box;
+
+    strong {
+      font-weight: 500;
+    }
   }
 
   .measures-table tbody tr:hover {

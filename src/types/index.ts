@@ -5,6 +5,7 @@ export type VariantMetafields = Array<{
     busto?: number;
     cintura?: number;
     quadril?: number;
+    comprimento?: number;
   };
 }>
 export type Image = {

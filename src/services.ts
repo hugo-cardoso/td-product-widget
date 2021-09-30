@@ -19,6 +19,9 @@ type GetProductMetafieldsResponse = {
             },
             quadril: {
               value: number;
+            },
+            comprimento: {
+              value: number;
             }
           }
         }>
@@ -29,7 +32,7 @@ type GetProductMetafieldsResponse = {
 
 export const getProduct = async (): Promise<Product> => {
   let url = window.location.pathname + '.js';
-  if (process.env.NODE_ENV === 'development') url = 'http://www.todadelicadinha.com.br/products/teste.js';
+  if (process.env.NODE_ENV === 'development') url = 'http://www.todadelicadinha.com.br/products/vestido-raquel-terra-cota.js';
 
   const response = await fetch(url);
   const data = await response.json();
@@ -57,6 +60,9 @@ export const getProductMetafields = async (handle: string): Promise<GetProductMe
                 value
               }
               quadril: metafield(namespace: "my_fields", key: "medida_do_quadril") {
+                value
+              }
+              comprimento: metafield(namespace: "my_fields", key: "medida_de_comprimento") {
                 value
               }
             }
