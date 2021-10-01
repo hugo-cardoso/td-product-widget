@@ -2,8 +2,11 @@
   import { store } from '../store'
   import { createImageURL } from '../utils'
 
+  import GalleryZoom from './GalleryZoom.svelte'
+
   let imageActiveIndex = 0
   let imageIsLoading = true
+  let imageZoomActive = false
 
   $: ({ media } = $store.product)
   $: images = media.filter(({ media_type }) => media_type === 'image')
@@ -13,6 +16,10 @@
     if (index === imageActiveIndex) return
     imageIsLoading = true
     imageActiveIndex = index
+  }
+
+  const handleClickZoomButton = () => {
+    imageZoomActive = true
   }
 
   const onLoadImage = () => imageIsLoading = false
@@ -29,6 +36,13 @@
     >
     {#if imageIsLoading}
       <div class="gallery__image-loading"></div>
+    {:else}
+      <button
+        class="gallery__image-zoom-btn"
+        on:click={handleClickZoomButton}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15zM10 10V7h2v3h3v2h-3v3h-2v-3H7v-2h3z"/></svg>
+      </button>
     {/if}
   </div>
   <div class="gallery-thumbnails">
@@ -43,6 +57,9 @@
     {/each}
   </div>
 </div>
+{#if imageZoomActive}
+  <GalleryZoom image={imageActive} on:close={() => imageZoomActive = false}/>
+{/if}
 
 <style lang="scss">
   .gallery {
@@ -98,6 +115,33 @@
         border: 2px solid #FFF;
         border-top-color: transparent;
         animation: rotate 1s linear infinite;
+      }
+    }
+
+    &__image-zoom-btn {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      bottom: var(--theme-spaces-xs);
+      right: var(--theme-spaces-xs);
+      z-index: 1;
+      background-color: rgba(255, 255, 255, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--theme-colors-gray-dark);
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+      appearance: none;
+      
+      svg {
+        width: var(--theme-spaces-sm);
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.7);
       }
     }
 
