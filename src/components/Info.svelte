@@ -4,6 +4,7 @@
   import { parsePrice } from '../utils'
 
   import BuyButton from './BuyButton.svelte'
+  import InfoDescription from './InfoDescription.svelte'
 
   $: ({
     selectedVariant,
@@ -92,6 +93,8 @@
         </tbody>
       </table>
     {/if}
+
+    <InfoDescription />
   {/if}
 </div>
 
